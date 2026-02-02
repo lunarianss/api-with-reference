@@ -25,12 +25,19 @@
         "environment": {
           "default": "api",
           "description": "Server environment",
-          "enum": ["api", "api-staging", "api-dev"]
+          "enum": [
+            "api",
+            "api-staging",
+            "api-dev"
+          ]
         },
         "port": {
           "default": "443",
           "description": "Server port number",
-          "enum": ["443", "8443"]
+          "enum": [
+            "443",
+            "8443"
+          ]
         },
         "basePath": {
           "default": "v1",
@@ -67,7 +74,10 @@
         }
       ],
       "get": {
-        "tags": ["Users", "Admin"],
+        "tags": [
+          "Users",
+          "Admin"
+        ],
         "summary": "List all users",
         "description": "Retrieve a paginated list of all users in the system",
         "operationId": "listUsers",
@@ -105,7 +115,12 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["name:asc", "name:desc", "created:asc", "created:desc"]
+              "enum": [
+                "name:asc",
+                "name:desc",
+                "created:asc",
+                "created:desc"
+              ]
             },
             "style": "form",
             "explode": false
@@ -122,7 +137,11 @@
               "properties": {
                 "status": {
                   "type": "string",
-                  "enum": ["active", "inactive", "pending"]
+                  "enum": [
+                    "active",
+                    "inactive",
+                    "pending"
+                  ]
                 },
                 "role": {
                   "type": "string"
@@ -241,7 +260,10 @@
         },
         "security": [
           {
-            "OAuth2": ["read:users", "admin"]
+            "OAuth2": [
+              "read:users",
+              "admin"
+            ]
           },
           {
             "ApiKeyAuth": []
@@ -254,7 +276,9 @@
         "deprecated": false
       },
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Create a new user",
         "description": "Create a new user account with the provided information",
         "operationId": "createUser",
@@ -374,7 +398,9 @@
         },
         "security": [
           {
-            "OAuth2": ["write:users"]
+            "OAuth2": [
+              "write:users"
+            ]
           }
         ]
       }
@@ -396,7 +422,9 @@
         }
       ],
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get user by ID",
         "description": "Retrieve detailed information about a specific user",
         "operationId": "getUserById",
@@ -433,12 +461,21 @@
         },
         "security": [
           {
-            "OAuth2": ["read:users"]
+            "ApiKeyAuth": []
+          },
+          {
+            "ApiKeyAuth": [],
+            "OAuth2": [
+              "read:users",
+              "write:users"
+            ]
           }
         ]
       },
       "put": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Update user",
         "description": "Update an existing user's information",
         "operationId": "updateUser",
@@ -462,7 +499,9 @@
         }
       },
       "delete": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Delete user",
         "description": "Remove a user from the system",
         "operationId": "deleteUser",
@@ -490,12 +529,17 @@
         },
         "security": [
           {
-            "OAuth2": ["delete:users", "admin"]
+            "OAuth2": [
+              "delete:users",
+              "admin"
+            ]
           }
         ]
       },
       "patch": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Partially update user",
         "description": "Update specific fields of a user",
         "operationId": "patchUser",
@@ -532,7 +576,9 @@
         }
       },
       "head": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Check if user exists",
         "description": "Check if a user exists without retrieving the full data",
         "operationId": "headUser",
@@ -546,7 +592,9 @@
         }
       },
       "options": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get supported operations",
         "description": "Returns the supported HTTP methods for this resource",
         "operationId": "optionsUser",
@@ -565,7 +613,9 @@
         }
       },
       "trace": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Trace user endpoint",
         "description": "Performs a message loop-back test along the path to the target resource",
         "operationId": "traceUser",
@@ -578,7 +628,9 @@
     },
     "/files/upload": {
       "post": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Upload files",
         "description": "Upload one or more files with metadata",
         "operationId": "uploadFiles",
@@ -616,7 +668,9 @@
                     }
                   }
                 },
-                "required": ["file"]
+                "required": [
+                  "file"
+                ]
               },
               "encoding": {
                 "file": {
@@ -665,7 +719,11 @@
       "User": {
         "type": "object",
         "description": "User account information",
-        "required": ["id", "name", "email"],
+        "required": [
+          "id",
+          "name",
+          "email"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -687,7 +745,12 @@
           "status": {
             "type": "string",
             "description": "Account status",
-            "enum": ["active", "inactive", "pending", "suspended"],
+            "enum": [
+              "active",
+              "inactive",
+              "pending",
+              "suspended"
+            ],
             "default": "pending"
           },
           "role": {
@@ -793,7 +856,9 @@
                 }
               }
             },
-            "required": ["adminLevel"]
+            "required": [
+              "adminLevel"
+            ]
           }
         ]
       },
@@ -807,7 +872,11 @@
             "properties": {
               "subscriptionTier": {
                 "type": "string",
-                "enum": ["free", "premium", "enterprise"]
+                "enum": [
+                  "free",
+                  "premium",
+                  "enterprise"
+                ]
               }
             }
           }
@@ -815,7 +884,11 @@
       },
       "UserInput": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -851,7 +924,11 @@
         "properties": {
           "theme": {
             "type": "string",
-            "enum": ["light", "dark", "auto"],
+            "enum": [
+              "light",
+              "dark",
+              "auto"
+            ],
             "default": "auto"
           },
           "language": {
@@ -891,7 +968,11 @@
         "properties": {
           "eventType": {
             "type": "string",
-            "enum": ["created", "updated", "deleted"]
+            "enum": [
+              "created",
+              "updated",
+              "deleted"
+            ]
           },
           "userId": {
             "type": "integer",
@@ -908,7 +989,10 @@
       },
       "Error": {
         "type": "object",
-        "required": ["code", "message"],
+        "required": [
+          "code",
+          "message"
+        ],
         "properties": {
           "code": {
             "type": "integer",
@@ -952,7 +1036,10 @@
             "type": "string"
           }
         },
-        "required": ["name", "petType"]
+        "required": [
+          "name",
+          "petType"
+        ]
       },
       "Cat": {
         "allOf": [
@@ -964,7 +1051,12 @@
             "properties": {
               "huntingSkill": {
                 "type": "string",
-                "enum": ["clueless", "lazy", "adventurous", "aggressive"]
+                "enum": [
+                  "clueless",
+                  "lazy",
+                  "adventurous",
+                  "aggressive"
+                ]
               }
             }
           }
@@ -1318,7 +1410,9 @@
   },
   "security": [
     {
-      "OAuth2": ["read:users"]
+      "OAuth2": [
+        "read:users"
+      ]
     },
     {
       "ApiKeyAuth": []
