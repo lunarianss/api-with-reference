@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      summary: Test endpoint
+      parameters:
+        - name: a
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "example_a"
+        - name: b
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: c
+          in: query
+          required: true
+          schema:
+            type:
+              - string
+              - "null"
+          example: "example_c"
+        - name: d
+          in: query
+          required: true
+          schema:
+            type:
+              - string
+              - "null"
+        - name: e
+          in: query
+          schema:
+            type: string
+          example: "example_e"
+        - name: f
+          in: query
+          schema:
+            type: string
+        - name: g
+          in: query
+          schema:
+            type:
+              - string
+              - "null"
+          example: "example_g"
+        - name: h
+          in: query
+          schema:
+            type:
+              - string
+              - "null"
+          example: "example_h"
+      responses:
+        "200":
+          description: Success
