@@ -1,0 +1,461 @@
+{
+  "name": "api-with-reference",
+  "description": "",
+  "spectralExtends": [],
+  "extends": [],
+  "formats": [
+    "oas2",
+    "oas3",
+    "oas3.0",
+    "oas3.1"
+  ],
+  "aliases": {},
+  "rules": {
+    "owasp:api1:2023-broken-object-level-authorization": {
+      "id": "eH_-jvzI3wsbDi-NSSDVf",
+      "given": [
+        "$.paths[*][get,put,patch,delete]"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "truthy",
+        "field": "security"
+      },
+      "name": "owasp:api1:2023-broken-object-level-authorization",
+      "description": "OWASP API1:2023 - Check that all path parameters have associated security schemes to prevent Broken Object Level Authorization (BOLA).",
+      "message": "{{description}}. Path '{{path}}' should define security schemes to protect object-level access."
+    },
+    "owasp:api1:2023-no-unevaluated-properties": {
+      "id": "2NVHym_jpJ8xErar0d4CT",
+      "given": [
+        "$..[?(@ && @.type === 'object')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "defined",
+        "field": "additionalProperties"
+      },
+      "name": "owasp:api1:2023-no-unevaluated-properties",
+      "description": "OWASP API1:2023 - Schemas should restrict unevaluated properties to prevent mass assignment leading to BOLA.",
+      "message": "{{description}}. Schema '{{path}}' should set additionalProperties to false."
+    },
+    "owasp:api2:2023-broken-authentication-no-empty-security": {
+      "id": "dUFPZeWDuAmZ_9wcpJYZD",
+      "given": [
+        "$.paths[*][get,post,put,patch,delete].security[*]"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "schema",
+        "functionOptions": {
+          "schema": {
+            "type": "object",
+            "minProperties": 1
+          }
+        }
+      },
+      "name": "owasp:api2:2023-broken-authentication-no-empty-security",
+      "description": "OWASP API2:2023 - Security schemes must not be empty to prevent Broken Authentication.",
+      "message": "{{description}}. Operation '{{path}}' has an empty security array, allowing unauthenticated access."
+    },
+    "owasp:api2:2023-broken-authentication-jwt-best-practices": {
+      "id": "8t5_HAInJv9FTOB4-NNSM",
+      "given": [
+        "$.components.securitySchemes[?(@ && @.type === 'http' && @.scheme === 'bearer')]"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "truthy",
+        "field": "bearerFormat"
+      },
+      "name": "owasp:api2:2023-broken-authentication-jwt-best-practices",
+      "description": "OWASP API2:2023 - Security scheme using JWT should use a URL to restrict the algorithm (e.g. RS256).",
+      "message": "{{description}}. Security scheme '{{path}}' should define bearerFormat as 'JWT' for bearer tokens."
+    },
+    "owasp:api2:2023-broken-authentication-global-security": {
+      "id": "yHDsnYXkSXXJPqnI9lDuN",
+      "given": [
+        "$"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "truthy",
+        "field": "security"
+      },
+      "name": "owasp:api2:2023-broken-authentication-global-security",
+      "description": "OWASP API2:2023 - Global security field should be defined to enforce authentication by default.",
+      "message": "{{description}}. The OpenAPI document does not have a global 'security' field."
+    },
+    "owasp:api3:2023-broken-object-property-level-authorization": {
+      "id": "xLElVlOVwAMWpay63XCG6",
+      "given": [
+        "$.paths[*][*].responses[*].content[*].schema"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "schema",
+        "functionOptions": {
+          "schema": {
+            "oneOf": [
+              {
+                "required": [
+                  "properties"
+                ]
+              },
+              {
+                "required": [
+                  "$ref"
+                ]
+              },
+              {
+                "required": [
+                  "allOf"
+                ]
+              },
+              {
+                "required": [
+                  "oneOf"
+                ]
+              },
+              {
+                "required": [
+                  "anyOf"
+                ]
+              },
+              {
+                "required": [
+                  "items"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "name": "owasp:api3:2023-broken-object-property-level-authorization",
+      "description": "OWASP API3:2023 - Response schemas should define properties explicitly to prevent excessive data exposure.",
+      "message": "{{description}}. Schema at '{{path}}' should define its properties explicitly."
+    },
+    "owasp:api3:2023-no-additionalProperties-in-response": {
+      "id": "p-Kd3R7_ApEy3nLYqa4_m",
+      "given": [
+        "$.paths[*][*].responses[*].content[*].schema[?(@ && @.type === 'object')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "falsy",
+        "field": "additionalProperties"
+      },
+      "name": "owasp:api3:2023-no-additionalProperties-in-response",
+      "description": "OWASP API3:2023 - Response object schemas should not allow additional properties to prevent data leakage.",
+      "message": "{{description}}. Response schema '{{path}}' should set 'additionalProperties: false'."
+    },
+    "owasp:api4:2023-unrestricted-resource-consumption-rate-limit": {
+      "id": "awnOOBukrehtjZp7SoUkz",
+      "given": [
+        "$.paths[*][*].responses['200','201','204']"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "truthy",
+        "field": "headers"
+      },
+      "name": "owasp:api4:2023-unrestricted-resource-consumption-rate-limit",
+      "description": "OWASP API4:2023 - Responses should include rate limiting headers to prevent unrestricted resource consumption.",
+      "message": "{{description}}. Response '{{path}}' should contain rate limiting headers (X-RateLimit-Limit, RateLimit)."
+    },
+    "owasp:api4:2023-unrestricted-resource-consumption-array-limit": {
+      "id": "t-lwiIKrX0dM_pH3bkul7",
+      "given": [
+        "$..[?(@ && @.type === 'array')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "defined",
+        "field": "maxItems"
+      },
+      "name": "owasp:api4:2023-unrestricted-resource-consumption-array-limit",
+      "description": "OWASP API4:2023 - Array schemas should define maxItems to prevent memory exhaustion attacks.",
+      "message": "{{description}}. Array schema at '{{path}}' should define 'maxItems'."
+    },
+    "owasp:api4:2023-unrestricted-resource-consumption-string-limit": {
+      "id": "xoaOSiAi5XD9Mah0agho_",
+      "given": [
+        "$..[?(@ && @.type === 'string')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "defined",
+        "field": "maxLength"
+      },
+      "name": "owasp:api4:2023-unrestricted-resource-consumption-string-limit",
+      "description": "OWASP API4:2023 - String schemas should define maxLength to prevent abuse.",
+      "message": "{{description}}. String schema at '{{path}}' should define 'maxLength'."
+    },
+    "owasp:api4:2023-unrestricted-resource-consumption-integer-limit": {
+      "id": "R42EF_jg7xbfLEmIdzvaC",
+      "given": [
+        "$..[?(@ && @.type === 'integer')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "defined",
+        "field": "maximum"
+      },
+      "name": "owasp:api4:2023-unrestricted-resource-consumption-integer-limit",
+      "description": "OWASP API4:2023 - Integer schemas should define maximum to prevent unreasonable values.",
+      "message": "{{description}}. Integer schema at '{{path}}' should define 'maximum'."
+    },
+    "owasp:api4:2023-unrestricted-resource-consumption-pagination": {
+      "id": "J-Smec03OHi8n_z9jt23e",
+      "given": [
+        "$.paths[*].get"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "truthy",
+        "field": "parameters"
+      },
+      "name": "owasp:api4:2023-unrestricted-resource-consumption-pagination",
+      "description": "OWASP API4:2023 - GET endpoints returning lists should support pagination parameters.",
+      "message": "{{description}}. GET operation at '{{path}}' that returns an array should support pagination."
+    },
+    "owasp:api5:2023-broken-function-level-authorization-admin-security": {
+      "id": "C7uWbsc7M2KoJ5v1yV2vO",
+      "given": [
+        "$.paths[?(@property.match(/admin|manage|internal|superuser/i))][get,post,put,patch,delete]"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "truthy",
+        "field": "security"
+      },
+      "name": "owasp:api5:2023-broken-function-level-authorization-admin-security",
+      "description": "OWASP API5:2023 - Admin endpoints should have stricter security to prevent Broken Function Level Authorization.",
+      "message": "{{description}}. Admin-related path '{{path}}' must define security schemes."
+    },
+    "owasp:api5:2023-broken-function-level-authorization-method-restriction": {
+      "id": "SLQfrUMlxvfbfqV1nRgpf",
+      "given": [
+        "$.paths[*][post,put,delete,patch]"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "truthy",
+        "field": "security"
+      },
+      "name": "owasp:api5:2023-broken-function-level-authorization-method-restriction",
+      "description": "OWASP API5:2023 - Sensitive operations (POST, PUT, DELETE, PATCH) should require authentication.",
+      "message": "{{description}}. Write operation at '{{path}}' must define security."
+    },
+    "owasp:api6:2023-unrestricted-access-to-sensitive-business-flows": {
+      "id": "bGzRZBHVWYXYZ7RzhyHN3",
+      "given": [
+        "$.paths[*][post,put].responses"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "truthy",
+        "field": "429"
+      },
+      "name": "owasp:api6:2023-unrestricted-access-to-sensitive-business-flows",
+      "description": "OWASP API6:2023 - Sensitive business flows should have rate limiting and security mechanisms.",
+      "message": "{{description}}. Sensitive operation at '{{path}}' should include rate limit response (429)."
+    },
+    "owasp:api7:2023-server-side-request-forgery-no-http-urls": {
+      "id": "SZT7uVjwiciTQsjI7lfUb",
+      "given": [
+        "$.servers[*].url"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "^https://"
+        }
+      },
+      "name": "owasp:api7:2023-server-side-request-forgery-no-http-urls",
+      "description": "OWASP API7:2023 - Server URLs should use HTTPS to prevent SSRF and MITM attacks.",
+      "message": "{{description}}. Server URL '{{value}}' should use HTTPS instead of HTTP."
+    },
+    "owasp:api7:2023-server-side-request-forgery-url-validation": {
+      "id": "I0NQyStIq-LpxgJHedvVV",
+      "given": [
+        "$.paths[*][*]..parameters[?(@ && @.schema && @.schema.format === 'uri')]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "truthy",
+        "field": "schema.pattern"
+      },
+      "name": "owasp:api7:2023-server-side-request-forgery-url-validation",
+      "description": "OWASP API7:2023 - URL parameters accepting user input should define format to prevent SSRF.",
+      "message": "{{description}}. URL parameter at '{{path}}' should define 'format: uri' with pattern validation."
+    },
+    "owasp:api8:2023-security-misconfiguration-cors": {
+      "id": "ekr2Lkb8fnnfhYs1AD-Xp",
+      "given": [
+        "$.servers[*].url"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "notMatch": "\\*"
+        }
+      },
+      "name": "owasp:api8:2023-security-misconfiguration-cors",
+      "description": "OWASP API8:2023 - Servers should not use wildcard URLs that may indicate CORS misconfiguration.",
+      "message": "{{description}}. Server URL at '{{path}}' should not use wildcards."
+    },
+    "owasp:api8:2023-security-misconfiguration-error-response": {
+      "id": "ud9_Cgv0gpJAVXT935kod",
+      "given": [
+        "$.paths[*][get,post,put,patch,delete].responses"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "schema",
+        "functionOptions": {
+          "schema": {
+            "anyOf": [
+              {
+                "required": [
+                  "400"
+                ]
+              },
+              {
+                "required": [
+                  "401"
+                ]
+              },
+              {
+                "required": [
+                  "403"
+                ]
+              },
+              {
+                "required": [
+                  "404"
+                ]
+              },
+              {
+                "required": [
+                  "500"
+                ]
+              },
+              {
+                "required": [
+                  "default"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "name": "owasp:api8:2023-security-misconfiguration-error-response",
+      "description": "OWASP API8:2023 - Error responses (4xx, 5xx) should be defined to avoid exposing stack traces or internal details.",
+      "message": "{{description}}. Operation at '{{path}}' should define error responses (4xx/5xx)."
+    },
+    "owasp:api8:2023-security-misconfiguration-define-security-schemes": {
+      "id": "M2jjx-RPl7HPSbRGD_dWT",
+      "given": [
+        "$.components"
+      ],
+      "severity": "error",
+      "then": {
+        "function": "truthy",
+        "field": "securitySchemes"
+      },
+      "name": "owasp:api8:2023-security-misconfiguration-define-security-schemes",
+      "description": "OWASP API8:2023 - The API should define security schemes in components.",
+      "message": "{{description}}. The document should have 'components.securitySchemes' defined."
+    },
+    "owasp:api9:2023-improper-inventory-management-description": {
+      "id": "dMTAd_B_GGkaAYJPeXLWL",
+      "given": [
+        "$.paths[*][get,post,put,patch,delete]"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "truthy",
+        "field": "description"
+      },
+      "name": "owasp:api9:2023-improper-inventory-management-description",
+      "description": "OWASP API9:2023 - All operations should have descriptions for proper inventory management.",
+      "message": "{{description}}. Operation at '{{path}}' should have a description."
+    },
+    "owasp:api9:2023-improper-inventory-management-servers": {
+      "id": "omTNaVEbsPa7LlMcvyBNv",
+      "given": [
+        "$"
+      ],
+      "severity": "warn",
+      "then": {
+        "function": "truthy",
+        "field": "servers"
+      },
+      "name": "owasp:api9:2023-improper-inventory-management-servers",
+      "description": "OWASP API9:2023 - API should define servers to allow proper inventory management and avoid exposing debug/staging endpoints.",
+      "message": "{{description}}. The document should define at least one server."
+    },
+    "owasp:api9:2023-improper-inventory-management-no-api-versioning": {
+      "id": "a93KXpCU2WmllokINfeDT",
+      "given": [
+        "$.servers[*].url"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "pattern",
+        "functionOptions": {
+          "match": "/v[0-9]+[./]?"
+        }
+      },
+      "name": "owasp:api9:2023-improper-inventory-management-no-api-versioning",
+      "description": "OWASP API9:2023 - Server URLs should include API versioning for proper lifecycle management.",
+      "message": "{{description}}. Server URL '{{value}}' should include a version identifier (e.g., /v1/)."
+    },
+    "owasp:api9:2023-improper-inventory-management-api-info": {
+      "id": "sU4-eMLc6jQQIa82xwJT0",
+      "given": [
+        "$.info"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "truthy",
+        "field": "contact"
+      },
+      "name": "owasp:api9:2023-improper-inventory-management-api-info",
+      "description": "OWASP API9:2023 - API should document info with contact, license and terms of service for proper governance.",
+      "message": "{{description}}. The 'info' object at '{{path}}' should include contact information."
+    },
+    "owasp:api10:2023-unsafe-consumption-of-apis-server-description": {
+      "id": "vHjEWd2jRC7n9aUM_3LPD",
+      "given": [
+        "$.servers[*]"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "truthy",
+        "field": "description"
+      },
+      "name": "owasp:api10:2023-unsafe-consumption-of-apis-server-description",
+      "description": "OWASP API10:2023 - Server entries should have descriptions to document the purpose and trust level of external APIs.",
+      "message": "{{description}}. Server at '{{path}}' should have a 'description'."
+    },
+    "owasp:api10:2023-unsafe-consumption-of-apis-external-link-description": {
+      "id": "MfmnuXE6bcBLYKogRjL2K",
+      "given": [
+        "$.externalDocs"
+      ],
+      "severity": "info",
+      "then": {
+        "function": "truthy",
+        "field": "description"
+      },
+      "name": "owasp:api10:2023-unsafe-consumption-of-apis-external-link-description",
+      "description": "OWASP API10:2023 - External documentation links should have descriptions to identify trusted vs untrusted sources.",
+      "message": "{{description}}. External docs at '{{path}}' should have a description."
+    }
+  },
+  "extendedDefault": false
+}
