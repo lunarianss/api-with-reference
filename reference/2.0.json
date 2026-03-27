@@ -48,7 +48,7 @@
           "Users",
           "Admin"
         ],
-        "summary": "List all users",
+        "summary": "List all users1",
         "description": "Retrieve a paginated list of all users in the system. Requires admin privileges.\n\nSupports filtering, sorting, and pagination.",
         "operationId": "listUsers",
         "consumes": [
