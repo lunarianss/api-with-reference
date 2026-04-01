@@ -1,0 +1,103 @@
+{
+  "items": [
+    {
+      "type": "divider",
+      "title": "Docs1"
+    },
+    {
+      "type": "item",
+      "title": "README",
+      "uri": "/docs/README.md"
+    },
+    {
+      "type": "item",
+      "title": "1",
+      "uri": "/1.md"
+    },
+    {
+      "type": "item",
+      "title": "2",
+      "uri": "/2.md"
+    },
+    {
+      "type": "divider",
+      "title": "API Reference"
+    },
+    {
+      "type": "group",
+      "title": "3.1",
+      "uri": "/3.1/ghes-3.9.yaml",
+      "items": [
+        {
+          "type": "item",
+          "title": "ghes-3.9",
+          "uri": "/3.1/ghes-3.9.yaml"
+        },
+        {
+          "type": "item",
+          "title": "t1",
+          "uri": "/3.1/t1.yaml"
+        },
+        {
+          "type": "item",
+          "title": "t2",
+          "uri": "/3.1/t2.yaml"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Reference",
+      "uri": "/reference/petstore.json",
+      "items": [
+        {
+          "type": "item",
+          "title": "2.0",
+          "uri": "/reference/2.0.json"
+        },
+        {
+          "type": "item",
+          "title": "3.0",
+          "uri": "/reference/3.0.json"
+        },
+        {
+          "type": "item",
+          "title": "3.1",
+          "uri": "/reference/3.1.json"
+        },
+        {
+          "type": "item",
+          "title": "ghes-3.9",
+          "uri": "/reference/ghes-3.9.yaml"
+        },
+        {
+          "type": "item",
+          "title": "Petstore",
+          "uri": "/reference/petstore.json"
+        },
+        {
+          "type": "item",
+          "title": "required-example-null",
+          "uri": "/reference/required-example-null.yaml"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Reference121212",
+      "uri": "/reference/petstore.json",
+      "items": [
+        {
+          "type": "item",
+          "title": "2.3",
+          "uri": "/reference/2.0.json"
+        },
+        {
+          "type": "item",
+          "title": "3.0",
+          "uri": "/reference/3.0.json"
+        }
+      ]
+    }
+  ]
+}
