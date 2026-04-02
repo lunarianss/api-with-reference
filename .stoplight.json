@@ -2,7 +2,7 @@
     "formats": {
       "openapi": {
         "rootDir": ".",
-        "include": ["reference/**", "3.1/**"]
+        "include": ["reference/**"]
       }
     }
   }
